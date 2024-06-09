@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1717862756068,
+      "tag": "0000_lowly_reavers",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1717863573331,
+      "tag": "0001_real_wrecking_crew",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1717922933985,
+      "tag": "0002_absurd_kang",
+      "breakpoints": true
+    }
+  ]
+}
