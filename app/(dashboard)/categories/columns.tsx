@@ -11,7 +11,7 @@ import { Actions } from "./actions";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export type ResponseType =  InferResponseType<typeof client.api.accounts.$get, 200>["data"][0];
+export type ResponseType =  InferResponseType<typeof client.api.categories.$get, 200>["data"][0];
 
 export const columns: ColumnDef<ResponseType>[] = [
 	{
