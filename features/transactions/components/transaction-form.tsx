@@ -1,10 +1,16 @@
-import { insertAccountSchema, insertTransactionSchema } from "@/db/schema";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { Trash } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Select } from "@/components/select";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { DatePicker } from "@/components/date-picker";
+import { insertTransactionSchema } from "@/db/schema";
+import { convertAmountToMiliunits } from "@/lib/utils";
+import { AmountInput } from "@/components/amount-input";
 import {
 	Form,
 	FormControl,
@@ -13,10 +19,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { Select } from "@/components/select";
-import { DatePicker } from "@/components/date-picker";
-import { Textarea } from "@/components/ui/textarea";
-import { AmountInput } from "@/components/amount-input";
 
 const formSchema = z.object({
 	date: z.coerce.date(),
@@ -32,7 +34,7 @@ const apiSchema = insertTransactionSchema.omit({
 });
 
 type FormValues = z.input<typeof formSchema>;
-type ApiFormValues = z.output<typeof apiSchema>;
+type ApiFormValues = z.input<typeof apiSchema>;
 
 type Props = {
 	id?: string;
@@ -62,7 +64,9 @@ export const TransactionForm = ({
 		defaultValues: defaultValues,
 	});
 	const handleSubmit = (values: FormValues) => {
-		// onSubmit(values);
+		const amount = parseFloat(values.amount);
+		const amountInMiliunits = convertAmountToMiliunits(amount);
+		onSubmit({ ...values, amount: amountInMiliunits });
 	};
 	const handleDelete = () => {
 		onDelete?.();
@@ -176,7 +180,7 @@ export const TransactionForm = ({
 					)}
 				/>
 				<Button className="w-full" disabled={disabled}>
-					{id ? "Save Changes" : "Create account"}
+					{id ? "Save Changes" : "Add Transaction"}
 				</Button>
 				{!!id && (
 					<Button
@@ -187,7 +191,7 @@ export const TransactionForm = ({
 						variant="outline"
 					>
 						<Trash className="size-4 mr-2" />
-						Delete account
+						Delete Transaction
 					</Button>
 				)}
 			</form>
